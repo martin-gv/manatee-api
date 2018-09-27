@@ -11,6 +11,10 @@ const orderRowSchema = new mongoose.Schema(
       width: { type: String },
       glass: { type: String },
       mount: { type: String },
+      frame: { type: String },
+      mat: { type: String },
+      frameSupplier: { type: String },
+      specialInstructions: { type: String },
       framingRewards: { type: Boolean },
       inventoryItem: {
          type: mongoose.Schema.Types.ObjectId,
