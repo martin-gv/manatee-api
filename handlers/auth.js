@@ -27,10 +27,13 @@ exports.login = async function(req, res, next) {
 
 exports.signup = async function(req, res, next) {
    try {
-      let user = await db.User.create(req.body);
-      let { id, username } = user;
-      let token = jwt.sign({ id, username }, process.env.SECRET_KEY);
-      return res.status(200).json({ id, username, token });
+      const { user } = req.body;
+      const data = user ? user : req.body;
+      let op = await db.User.create(data);
+      // let { id, username } = op;
+      // let token = jwt.sign({ id, username }, process.env.SECRET_KEY);
+      // return res.status(200).json({ id, username, token });
+      return res.status(200).json(op);
    } catch (err) {
       // if validation fails
       if (err.code === 11000) {

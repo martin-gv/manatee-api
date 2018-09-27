@@ -1,10 +1,9 @@
 const db = require("../models");
-const { getNextID, newest } = require("../helpers/helpers");
+const { newest } = require("../helpers/helpers");
 
 exports.createCompany = async function(req, res, next) {
    try {
-      let companyID = await getNextID("companies");
-      let data = { companyID, ...req.body.company };
+      let data = req.body.company;
       let op = await db.Company.create(data);
       return res.status(200).json(op);
    } catch (err) {

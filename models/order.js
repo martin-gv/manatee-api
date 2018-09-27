@@ -14,7 +14,6 @@ const orderSchema = new mongoose.Schema(
       clientID: { type: Number, required: true },
       companyID: { type: Number },
       title: { type: String },
-      description: { type: String },
       // rows: [{ type: mongoose.Schema.Types.ObjectId, ref: "OrderRow" }],
       total: { type: Number, required: true, default: 0 },
       paymentTotal: { type: Number, required: true, default: 0 },

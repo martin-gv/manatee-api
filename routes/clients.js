@@ -7,16 +7,15 @@ const {
    updateClient,
    deleteClient
 } = require("../handlers/clients");
-
-const { getClientTag } = require("../handlers/clientTags");
+const { getTag } = require("../handlers/tags");
 const { getOrder, createOrder } = require("../handlers/orders");
 
 router.route("/").post(createClient);
 
-router.route("/tags").get(getClientTag);
+router.route("/tags").get(getTag);
 
 router
-   .route("/:client_id")
+   .route("/:clientID")
    .get(getClient)
    .put(updateClient)
    .delete(deleteClient);

@@ -1,11 +1,11 @@
 const mongoose = require("mongoose");
 const db = require("../models");
-const { generateSearch } = require("../helpers/helpers");
+const { getNextID, generateSearch } = require("../helpers/helpers");
 
 const clientSchema = new mongoose.Schema(
    {
-      clientId: {
-         type: String,
+      clientID: {
+         type: Number,
          required: true,
          unique: true
       },
@@ -21,6 +21,13 @@ const clientSchema = new mongoose.Schema(
          type: mongoose.Schema.Types.ObjectId,
          ref: "Company"
       },
+      address: { type: String },
+      city: { type: String },
+      province: { type: String },
+      postalCode: { type: String },
+      country: { type: String },
+      notes: { type: String },
+      secureNotes: { type: String },
       framingRewards: [
          {
             cardNum: { type: Number },
@@ -43,7 +50,6 @@ const clientSchema = new mongoose.Schema(
             index: true
          }
       ],
-      secureNotes: { type: String },
       search: {
          type: String,
          required: true,
@@ -53,13 +59,17 @@ const clientSchema = new mongoose.Schema(
    { timestamps: true }
 );
 
-const fields = ["clientId", "firstName", "lastName", "phone", "email"];
+const fields = ["clientID", "firstName", "lastName", "phone", "email"];
 const newSearchField = function(obj) {
    return generateSearch(obj, fields);
 };
 
-clientSchema.pre("validate", function(next) {
-   this.isNew ? (this.search = newSearchField(this)) : null;
+clientSchema.pre("validate", async function(next) {
+   if (this.isNew) {
+      this.search = newSearchField(this);
+      this.clientID = await getNextID("client");
+
+   }
    next();
 });
 

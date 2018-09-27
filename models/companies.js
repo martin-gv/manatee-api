@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { getNextID } = require("../helpers/helpers");
 
 const companySchema = new mongoose.Schema(
    {
@@ -12,7 +13,7 @@ const companySchema = new mongoose.Schema(
          ref: "User"
       },
       name: { type: String },
-      address1: { type: String },
+      address: { type: String },
       city: { type: String },
       province: { type: String },
       country: { type: String },
@@ -30,6 +31,13 @@ const companySchema = new mongoose.Schema(
    },
    { timestamps: true }
 );
+
+companySchema.pre("validate", async function(next) {
+   if (this.isNew) {
+      this.companyID = await getNextID("company");
+   }
+   next();
+});
 
 const Company = mongoose.model("Company", companySchema);
 module.exports = Company;

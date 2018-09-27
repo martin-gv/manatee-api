@@ -1,26 +1,27 @@
 const db = require("../models");
 
-exports.createClientTag = async function(req, res, next) {
+exports.createUser = async function(req, res, next) {
    try {
-      // .create() can accept a spread or array
-      // let data = req.body.payment;
-      // let op = await db.Payment.create(data);
+      // let data = req.body.tag;
+      // await db.Tag.create(data);
+      // // returns all tags, including new tag
+      // let op = await db.Tag.find();
       // return res.status(200).json(op);
    } catch (err) {
       return next(err);
    }
 };
 
-exports.getClientTag = async function(req, res, next) {
+exports.getUser = async function(req, res, next) {
    try {
-      let op = await db.ClientTag.find();
+      let op = await db.User.find();
       return res.status(200).json(op);
    } catch (err) {
       return next(err);
    }
 };
 
-exports.updateClientTag = async function(req, res, next) {
+exports.updateUser = async function(req, res, next) {
    try {
       // let op = await db.Payment.findByIdAndUpdate(req.params.id, req.body.row);
       // return res.status(200).json(op);
@@ -29,7 +30,7 @@ exports.updateClientTag = async function(req, res, next) {
    }
 };
 
-exports.deleteClientTag = async function(req, res, next) {
+exports.deleteUser = async function(req, res, next) {
    try {
       // let op = await db.Payment.findByIdAndRemove(req.params.id);
       // return res.status(200).json(op);
@@ -37,4 +38,3 @@ exports.deleteClientTag = async function(req, res, next) {
       next(err);
    }
 };
-

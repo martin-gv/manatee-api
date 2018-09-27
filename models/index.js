@@ -10,7 +10,7 @@ mongoose.connect(
 module.exports.Counter = require("./counter");
 module.exports.User = require("./user");
 module.exports.Client = require("./client");
-module.exports.ClientTag = require("./clientTag");
+module.exports.Tag = require("./tag");
 // does order of models matter for populate?
 // test by moving company above client and seeing if app still works
 module.exports.Company = require("./companies");

@@ -21,7 +21,7 @@ exports.getInventoryItem = async function(req, res, next) {
          const criteria = terms.map(t => ({
             searchFields: new RegExp(t)
          }));
-         let query = await db.InventoryItem.find({ $and: criteria });
+         let query = await db.InventoryItem.find({ $and: criteria }).limit(15);
          return res.status(200).json(query);
       } else if (inventoryID) {
          let op = await db.InventoryItem.find({ inventoryID });
@@ -29,7 +29,7 @@ exports.getInventoryItem = async function(req, res, next) {
       } else {
          let query = await db.InventoryItem.find()
             .sort({ inventoryID: "desc" })
-            .limit(25);
+            .limit(15);
          return res.status(200).json(query);
       }
    } catch (err) {
@@ -75,7 +75,12 @@ exports.printInventoryItem = async function(req, res, next) {
          output: "output/priceTags.docx",
          data: { inventory: printData }
       });
-      return res.status(200).download("./output/priceTags.docx", "Price Tags - " + new Date() + ".docx");
+      return res
+         .status(200)
+         .download(
+            "./output/priceTags.docx",
+            "Price Tags - " + new Date() + ".docx"
+         );
    } catch (err) {
       return next(err);
    }

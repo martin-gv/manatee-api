@@ -10,7 +10,10 @@ const userSchema = new mongoose.Schema({
    password: {
       type: String,
       required: true
-   }
+   },
+   firstName: { type: String },
+   lastName: { type: String },
+   email: { type: String }
 });
 
 // Hash password if it's new or modified

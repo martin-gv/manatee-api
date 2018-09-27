@@ -9,7 +9,8 @@ const authError = {
 exports.loginRequired = function(req, res, next) {
    try {
       const token = req.headers.authorization.split(" ")[1];
-      jwt.verify(token, process.env.SECRET_KEY, function(err, payload) {
+      const secretKey = process.env.SECRET_KEY;
+      jwt.verify(token, secretKey, function(err, payload) {
          if (payload) {
             return next();
          } else {

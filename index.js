@@ -12,8 +12,10 @@ const { generateQuery } = require("./helpers/helpers");
 const { loginRequired } = require("./middleware/auth");
 
 const authRoutes = require("./routes/auth");
+const userRoutes = require("./routes/users");
 const clientRoutes = require("./routes/clients");
 const companyRoutes = require("./routes/companies");
+const tagRoutes = require("./routes/tags");
 const orderRoutes = require("./routes/orders");
 const orderRowRoutes = require("./routes/orderRows");
 const paymentRoutes = require("./routes/payments");
@@ -28,8 +30,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // all routes here
 app.use("/api/auth", authRoutes);
+app.use("/api/users", loginRequired, userRoutes);
 app.use("/api/clients", loginRequired, clientRoutes);
 app.use("/api/companies", loginRequired, companyRoutes);
+app.use("/api/tags", loginRequired, tagRoutes);
 app.use("/api/orders", loginRequired, orderRoutes);
 app.use("/api/order_rows", loginRequired, orderRowRoutes);
 app.use("/api/payments", loginRequired, paymentRoutes);
@@ -38,7 +42,7 @@ app.use("/api/pricing", loginRequired, pricingRoutes);
 
 app.get("/api/clients", loginRequired, async function(req, res, next) {
    try {
-      const { search, tagSearch } = req.query;
+      const { search, tagSearch, all } = req.query;
       if (search) {
          // accepts a single string containing all search terms
          let op = await db.Client.find({ $and: generateQuery(search) })
@@ -52,8 +56,10 @@ app.get("/api/clients", loginRequired, async function(req, res, next) {
             .sort({ createdAt: "desc" })
             .limit(25);
          return res.status(200).json(op);
+      } else if (all) {
+         let op = await db.Client.find().sort({ createdAt: "desc" });
+         return res.status(200).json(op);
       } else {
-         // returns all clients
          let op = await db.Client.find()
             .sort({ createdAt: "desc" })
             .limit(25);
