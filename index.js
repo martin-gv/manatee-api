@@ -46,22 +46,22 @@ app.get("/api/clients", loginRequired, async function(req, res, next) {
       if (search) {
          // accepts a single string containing all search terms
          let op = await db.Client.find({ $and: generateQuery(search) })
-            .sort({ createdAt: "desc" })
+            .sort({ clientID: "desc" })
             .limit(25);
          return res.status(200).json(op);
       } else if (tagSearch) {
          // accepts array of clientTag ids
          console.log("tagSearch", tagSearch);
          let op = await db.Client.find({ tags: { $all: tagSearch } })
-            .sort({ createdAt: "desc" })
+            .sort({ clientID: "desc" })
             .limit(25);
          return res.status(200).json(op);
       } else if (all) {
-         let op = await db.Client.find().sort({ createdAt: "desc" });
+         let op = await db.Client.find().sort({ clientID: "desc" });
          return res.status(200).json(op);
       } else {
          let op = await db.Client.find()
-            .sort({ createdAt: "desc" })
+            .sort({ clientID: "desc" })
             .limit(25);
          return res.status(200).json(op);
       }

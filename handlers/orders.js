@@ -50,7 +50,16 @@ exports.getOrder = async function(req, res, next) {
                   ? { createdAt: { $gte: query.from, $lte: query.to } }
                   : {};
       // criteria.void = { $not: true };
-      const op = await db.Order.find(criteria).sort(newest);
+
+      let op;
+      if (search) {
+         op = await db.Order.find(criteria).sort(newest);
+      } else {
+         op = await db.Order.find(criteria)
+            .limit(25)
+            .sort({ orderID: "desc" });
+      }
+
       return res.status(200).json(op);
    } catch (err) {
       return next(err);

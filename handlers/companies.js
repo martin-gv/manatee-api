@@ -16,9 +16,10 @@ exports.getCompany = async function(req, res, next) {
       let { companyID } = req.query;
       let criteria = companyID ? { companyID } : {};
       let op = await db.Company.find(criteria) // .find() returns array
+         .limit(25)
          .populate("primaryContact")
          .populate("contacts")
-         .sort(newest);
+         .sort({ companyID: "desc" });
       return res.status(200).json(op);
    } catch (err) {
       return next(err);

@@ -37,6 +37,7 @@ exports.getPayment = async function(req, res, next) {
       // const op = await db.Payment.find(criteria).sort({ datePaid: "desc" });
       const op = await db.Payment.aggregate([
          { $match: criteria },
+         { $limit: 25 },
          {
             $addFields: {
                actionDate: {
